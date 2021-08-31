@@ -1,0 +1,3 @@
+include:
+  - project: 'infrav2/hx'
+    file: "/ci/naked.gitlab-ci.yml"
