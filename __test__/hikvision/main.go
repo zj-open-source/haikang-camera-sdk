@@ -6,7 +6,5 @@ import (
 )
 
 func main() {
-	//sdk.SDKExample(sdk_camera.TypeofHikvisionCameraSDK)
-
 	sdk.SDKExampleWithCallback(sdk_camera.TypeofHikvisionCameraSDK)
 }
