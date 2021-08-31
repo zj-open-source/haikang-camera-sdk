@@ -1,4 +1,4 @@
-# Golang调用海康工业相机SDK
+# Golang海康工业相机SDK二次开发 海康sdk二次开发(golang版)
 [海康工业相机SDK下载](https://www.hikrobotics.com/cn/machinevision/service/download?module=0)
 
 + SDK版本:基于海康SDK中心MVS V2.1.0(Linux)版本
@@ -20,4 +20,5 @@
 # 代码简单说明
 + 官方Demo只有C++和Python，该项目仅仅是海康工业相机SDK的GO版本,根据Python的demo翻译而来
 + 该demo不区分线阵和面阵相机,均适用两种相机
++ demo在camera-sdk.go文件中定义了一个公共的结构体，海康相机的SDK集成在camera_sdk_hikvision.go中实现，还可以扩展除海康之外的其他相机SDK
 + 作者水平有限,有些处理方式不是最好的,欢迎朋友指正
