@@ -2,7 +2,7 @@ package sdk_camera
 
 import (
 	"errors"
-	"git.querycap.com/aia/env-sdk-camera/constants"
+	"github.com/zjzjzjzj1874/haikang-camera-sdk/constants"
 	"unsafe"
 )
 
@@ -38,6 +38,14 @@ type (
 		GetOneFrameFroRGBWithCallback(argsAddr unsafe.Pointer) error
 		// GetOneFrameFroBGRWithCallback 回调取图(BGR)
 		GetOneFrameFroBGRWithCallback(argsAddr unsafe.Pointer) error
+		// FeatureSave 将相机属性导出到文件中
+		FeatureSave(path string) error
+		// FeatureLoad 从文件中导入相机属性
+		FeatureLoad(path string) error
+		// GetHeartBeatTimeout 相机心跳检测
+		GetHeartBeatTimeout() error
+		// IsDeviceConnected 相机是否连接
+		IsDeviceConnected() bool
 	}
 )
 

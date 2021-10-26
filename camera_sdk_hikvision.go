@@ -27,7 +27,7 @@ import "C"
 import (
 	"errors"
 	"fmt"
-	"git.querycap.com/aia/env-sdk-camera/constants"
+	"github.com/zjzjzjzj1874/haikang-camera-sdk/constants"
 	"unsafe"
 )
 
@@ -199,6 +199,47 @@ func (h *HikvisionCameraSDK) CloseDevice() error {
 		fmt.Println("MV_CC_CloseDevice success!!")
 	}
 	return nil
+}
+
+// FeatureSave ch:将相机属性导出到文件中 | en:Export the camera properties to the file
+func (h *HikvisionCameraSDK) FeatureSave(path string) error {
+	ret := C.MV_CC_FeatureSave(h.handle, C.CString(path))
+	if ret != 0 {
+		fmt.Println("MV_CC_FeatureSave failure:", fmt.Sprintf("0x%x", C.uint(ret)))
+		return errors.New(fmt.Sprintf("MV_CC_FeatureSave failure:0x%x", C.uint(ret)))
+	}
+	return nil
+}
+
+// FeatureLoad ch:从文件中导入相机属性 | en:Import the camera properties from the file
+func (h *HikvisionCameraSDK) FeatureLoad(path string) error {
+	ret := C.MV_CC_FeatureLoad(h.handle, C.CString(path))
+	if ret != 0 {
+		fmt.Println("MV_CC_FeatureLoad failure:", fmt.Sprintf("0x%x", C.uint(ret)))
+		return errors.New(fmt.Sprintf("MV_CC_FeatureLoad failure:0x%x", C.uint(ret)))
+	}
+	return nil
+}
+
+// GetHeartBeatTimeout 相机心跳检测
+func (h *HikvisionCameraSDK) GetHeartBeatTimeout() error {
+	pstValue := &C.MVCC_INTVALUE{}
+	ret := C.MV_CC_GetHeartBeatTimeout(h.handle, pstValue)
+	if ret != 0 {
+		fmt.Println("MV_CC_GetHeartBeatTimeout failure:", fmt.Sprintf("0x%x", C.uint(ret)))
+		return errors.New(fmt.Sprintf("MV_CC_GetHeartBeatTimeout failure:0x%x", C.uint(ret)))
+	}
+	return nil
+}
+
+// IsDeviceConnected 相机是否连接
+func (h *HikvisionCameraSDK) IsDeviceConnected() bool {
+	ret := C.MV_CC_IsDeviceConnected(h.handle)
+	if ret != 1 {
+		fmt.Println("MV_CC_IsDeviceConnected is not connected", ret)
+		return false
+	}
+	return true
 }
 
 // StartGrabbing triggerModel = 1(开触发拍照模式);while triggerMode = 0(关闭触发拍照模式)
