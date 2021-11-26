@@ -51,6 +51,7 @@ func (h *HikvisionCameraSDK) SetDeviceList(old *HikvisionCameraSDK) {
 
 // GetOneFrameFroRGBWithCallback 入参：传入回调函数
 func (h *HikvisionCameraSDK) GetOneFrameFroRGBWithCallback(addr unsafe.Pointer) error {
+	// C的指向函数的指针在Go中被视为*[0]byte，所以要转换一下
 	ret := C.MV_CC_RegisterImageCallBackForRGB(h.handle, (*[0]byte)(unsafe.Pointer(C.Callback)), addr)
 	if ret != 0 {
 		fmt.Println("MV_CC_RegisterImageCallBackEx failure:", fmt.Sprintf("0x%x", C.uint(ret)))
@@ -61,6 +62,7 @@ func (h *HikvisionCameraSDK) GetOneFrameFroRGBWithCallback(addr unsafe.Pointer) 
 
 // GetOneFrameFroBGRWithCallback 入参：传入回调函数
 func (h *HikvisionCameraSDK) GetOneFrameFroBGRWithCallback(addr unsafe.Pointer) error {
+	// C的指向函数的指针在Go中被视为*[0]byte，所以要转换一下
 	ret := C.MV_CC_RegisterImageCallBackForBGR(h.handle, (*[0]byte)(unsafe.Pointer(C.Callback)), addr)
 	if ret != 0 {
 		fmt.Println("MV_CC_RegisterImageCallBackEx failure:", fmt.Sprintf("0x%x", C.uint(ret)))
@@ -71,6 +73,7 @@ func (h *HikvisionCameraSDK) GetOneFrameFroBGRWithCallback(addr unsafe.Pointer) 
 
 // GetOneFrameWithCallback 入参：传入回调函数
 func (h *HikvisionCameraSDK) GetOneFrameWithCallback(addr unsafe.Pointer) error {
+	// C的指向函数的指针在Go中被视为*[0]byte，所以要转换一下
 	ret := C.MV_CC_RegisterImageCallBackEx(h.handle, (*[0]byte)(unsafe.Pointer(C.Callback)), addr)
 	if ret != 0 {
 		fmt.Println("MV_CC_RegisterImageCallBackEx failure:", fmt.Sprintf("0x%x", C.uint(ret)))
