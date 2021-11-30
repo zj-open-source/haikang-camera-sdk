@@ -105,13 +105,16 @@ func grabImageWithCallback() {
 		PortID:     "测试摄像头1",
 		FamilyName: "测试摄像头family",
 		Callback: func(frameInfo FrameOutInfo) {
-			//TODO 元哥，你的回调函数写这里
+			// TODO 朋友，回调函数可以写这里
 			fmt.Printf("get one frame:[PortID:%v], [DataBuf len:%d], Width[%v], Height[%v], nFrameNum[%v]\n", frameInfo.PortID, len(frameInfo.DataBuf), frameInfo.Width, frameInfo.Height, frameInfo.FrameNum)
 		},
 	}
+
+	// 因为C中不能长期持有GO的指针对象,只能通过全局变量来映射
 	p := gopointer.Save(cb)
 	defer gopointer.Unref(p)
 
+	// C的指向函数的指针在Go中被视为*[0]byte，所以要转换一下
 	ret = C.MV_CC_RegisterImageCallBackEx(handle, (*[0]byte)(unsafe.Pointer(C.Callback)), p)
 	if ret != 0 {
 		fmt.Println("MV_CC_RegisterImageCallBackEx failure:", fmt.Sprintf("0x%x", C.uint(ret)))
