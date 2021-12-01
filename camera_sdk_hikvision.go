@@ -41,7 +41,7 @@ type (
 		handle     unsafe.Pointer
 		deviceInfo *C.MV_CC_DEVICE_INFO
 		deviceList C.MV_CC_DEVICE_INFO_LIST
-		nDataSize  C.uint
+		nDataSize  C.uint //
 	}
 )
 
@@ -83,6 +83,9 @@ func (h *HikvisionCameraSDK) GetOneFrameWithCallback(addr unsafe.Pointer) error 
 }
 
 // GetOneFrameTimeout timeout 默认1000
+//	TODO 如果相机格式是mono8 或者bayer8   那这个值就是h.nDataSize*h.deviceList.nDeviceNum
+// 		 如果相机格式是yuv   那这个值就是h.nDataSize*h.deviceList.nDeviceNum*2
+// 		 如果相机格式是rgb/bgr   那这个值就是h.nDataSize*h.deviceList.nDeviceNum*3
 func (h *HikvisionCameraSDK) GetOneFrameTimeout(timeout uint32) (interface{}, []byte, error) {
 	pFrameInfo := C.MV_FRAME_OUT_INFO_EX{}
 	dataBuf := make([]byte, h.nDataSize*h.deviceList.nDeviceNum)
@@ -104,12 +107,39 @@ func (h *HikvisionCameraSDK) GetOneFrameTimeout(timeout uint32) (interface{}, []
 }
 
 // GetImageForRGB ：timeout 默认1000
+//	TODO 如果相机格式是mono8 或者bayer8   那这个值就是h.nDataSize*h.deviceList.nDeviceNum
+// 		 如果相机格式是yuv   那这个值就是h.nDataSize*h.deviceList.nDeviceNum*2
+// 		 如果相机格式是rgb/bgr   那这个值就是h.nDataSize*h.deviceList.nDeviceNum*3
 func (h *HikvisionCameraSDK) GetImageForRGB(timeout uint32) (interface{}, []byte, error) {
 	pFrameInfo := C.MV_FRAME_OUT_INFO_EX{}
 	dataBuf := make([]byte, h.nDataSize*h.deviceList.nDeviceNum)
 	ret := C.MV_CC_GetImageForRGB(h.handle, (*C.uchar)(unsafe.Pointer(&dataBuf[0])), h.nDataSize*h.deviceList.nDeviceNum, &pFrameInfo, C.int(timeout))
 	if ret == 0 {
 		fmt.Printf("get image for RGB: Width[%v], Height[%v], PixelType[0x%v], nFrameNum[%v]\n", pFrameInfo.nWidth, pFrameInfo.nHeight, pFrameInfo.enPixelType, pFrameInfo.nFrameNum)
+	} else {
+		fmt.Println("no data:", fmt.Sprintf("0x%x", C.uint(ret)))
+		return nil, nil, nil
+	}
+
+	return &MvFrameOutInfoEx{
+		Width:     uint16(pFrameInfo.nWidth),
+		Height:    uint16(pFrameInfo.nHeight),
+		PixelType: uint16(pFrameInfo.enPixelType),
+		FrameNum:  uint32(pFrameInfo.nFrameNum),
+		FrameLen:  uint32(pFrameInfo.nFrameLen),
+	}, dataBuf, nil
+}
+
+// GetImageForBGR ：获取BGR格式图片;取图超时:timeout 默认1000
+//	TODO 如果相机格式是mono8 或者bayer8   那这个值就是h.nDataSize*h.deviceList.nDeviceNum
+// 		 如果相机格式是yuv   那这个值就是h.nDataSize*h.deviceList.nDeviceNum*2
+// 		 如果相机格式是rgb/bgr   那这个值就是h.nDataSize*h.deviceList.nDeviceNum*3
+func (h *HikvisionCameraSDK) GetImageForBGR(timeout uint32) (interface{}, []byte, error) {
+	pFrameInfo := C.MV_FRAME_OUT_INFO_EX{}
+	dataBuf := make([]byte, h.nDataSize*h.deviceList.nDeviceNum)
+	ret := C.MV_CC_GetImageForBGR(h.handle, (*C.uchar)(unsafe.Pointer(&dataBuf[0])), h.nDataSize*h.deviceList.nDeviceNum, &pFrameInfo, C.int(timeout))
+	if ret == 0 {
+		fmt.Printf("get image for BGR: Width[%v], Height[%v], PixelType[0x%v], nFrameNum[%v]\n", pFrameInfo.nWidth, pFrameInfo.nHeight, pFrameInfo.enPixelType, pFrameInfo.nFrameNum)
 	} else {
 		fmt.Println("no data:", fmt.Sprintf("0x%x", C.uint(ret)))
 		return nil, nil, nil
