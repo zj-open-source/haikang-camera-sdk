@@ -28,7 +28,10 @@
 + demo在camera-sdk.go文件中定义了一个公共的结构体，海康相机的SDK集成在camera_sdk_hikvision.go中实现，还可以扩展除海康之外的其他相机SDK
 + 作者水平有限,有些处理方式不是最好的,欢迎朋友指正
 
-# TODOlist
+# 统计
+![Alt](https://repobeats.axiom.co/api/embed/5eaf96a7329e3c8622dc77bd6065c6356306bd48.svg "Repobeats analytics image")
+
+# TODO list
 
 + camera_sdk_hikvision.go中不同的图像格式,buffSize是不一样的,抽象出来,并且格式是mvs的客户端设置的;
 + 海康工业相机的软触发模块还缺少了,找个时间把软触发这一块给补上.软触发的demo(Mac:/Library/MVS_SDK/Samples/Trigger_Image,Ubuntu:
