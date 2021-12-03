@@ -276,6 +276,7 @@ func (h *HikvisionCameraSDK) IsDeviceConnected() bool {
 }
 
 // StartGrabbing triggerModel = 1(开触发拍照模式);while triggerMode = 0(关闭触发拍照模式)
+// TODO 软触发模式完善
 func (h *HikvisionCameraSDK) StartGrabbing(triggerMode constants.TriggerMode) error {
 	// 探测网络最佳包大小(只对GigE相机有效)
 	if h.deviceInfo.nTLayerType == C.MV_GIGE_DEVICE {
