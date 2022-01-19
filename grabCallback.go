@@ -105,7 +105,7 @@ func grabImageWithCallback() {
 		PortID:     "测试摄像头1",
 		FamilyName: "测试摄像头family",
 		Callback: func(frameInfo FrameOutInfo) {
-			// TODO 朋友，回调函数可以写这里
+			// 朋友，回调函数可以写这里
 			fmt.Printf("get one frame:[PortID:%v], [DataBuf len:%d], Width[%v], Height[%v], nFrameNum[%v]\n", frameInfo.PortID, len(frameInfo.DataBuf), frameInfo.Width, frameInfo.Height, frameInfo.FrameNum)
 		},
 	}
