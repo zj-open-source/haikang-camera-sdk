@@ -17,8 +17,7 @@
 + 项目根目录的grabImage_test.go中的两个测试方法可以直接运行;
 + 如果程序正常运行,但是没有图片回调或生成,请将相机触发模式设置为关闭(即自动触发取图);
 
-+ 项目路径__test__/hikvision/main.go程序可以正常运行,但是需要先将里面的路径先处理好
-+ 所以建议直接运行grabImage_test.go中的测试程序,然后可以根据test包中的demo,打开相机和取流顺序来编写自己项目的对应逻辑即可.
++ 项目路径__test__/hikvision/main.go程序可以正常运行
 
 # 代码简单说明
 
@@ -29,6 +28,7 @@
 + 作者水平有限,有些处理方式不是最好的,欢迎朋友指正
 
 # 统计
+
 ![Alt](https://repobeats.axiom.co/api/embed/5eaf96a7329e3c8622dc77bd6065c6356306bd48.svg "Repobeats analytics image")
 
 # TODO list

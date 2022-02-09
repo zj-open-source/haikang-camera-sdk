@@ -3,13 +3,13 @@ package sdk
 import (
 	"bytes"
 	"fmt"
-	sdk_camera "git.querycap.com/aia/env-sdk-camera"
-	"git.querycap.com/aia/env-sdk-camera/constants"
 	"image"
 	"image/jpeg"
 	"sync"
 	"time"
-	//"io/ioutil"
+	
+	sdk_camera "github.com/zjzjzjzj1874/haikang-camera-sdk"
+	"github.com/zjzjzjzj1874/haikang-camera-sdk/constants"
 )
 
 func SDKExample(sdkType sdk_camera.CameraSDKType) {
